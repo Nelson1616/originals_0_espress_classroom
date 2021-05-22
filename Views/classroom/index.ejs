@@ -1,0 +1,47 @@
+<%- include ('partials/navbar.ejs') %>
+<hr>
+<h1>Suas Salas</h1>
+<button> <a href="/classroom/create">Criar Sala</a> </button>
+<br>
+<br>
+<% rooms.forEach(room => { %>
+    <div>
+        <h3 style="display: inline;"> <%= room.title %> </h3>
+        <a href="/classroom/room/<%= room.id %>">Entrar</a>
+        |||
+        <form action="/classroom/delete" method="POST" style="display: inline;">
+            <input type="hidden" name="id" value="<%= room.id %>">
+            <button type="submit">Deletar</button>
+        </form>
+        
+    </div>
+<% }) %>
+<hr>
+<h1>Outras Salas</h1>
+<button onclick="changeState()">Entrar em Sala</button>
+<br>
+<br>
+<form action="/classroom/enter" method="POST" style="display: none;" id="form">
+    <input type="text" name="enterCode" placeholder="Código da Sala">
+    <button type="submit">Entrar</button>
+</form>
+<% outherRooms.forEach(room => { %>
+    <div>
+        <h3 style="display: inline;"> <%= room.title %> </h3>
+        <a href="/classroom/room/<%= room.id %>">Entrar</a>
+    </div>
+<% }) %>
+
+<script>
+    function changeState()
+    {
+        if(document.getElementById("form").style.display == 'block')
+        {
+            document.getElementById("form").style.display = 'none';
+        }
+        else
+        {
+            document.getElementById("form").style.display = 'block';
+        }              
+    }
+</script>

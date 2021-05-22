@@ -1,0 +1,23 @@
+<%- include ('partials/navbar.ejs') %>
+<hr>
+<h1>Criar Aula</h1>
+<hr>
+<form action="/lesson/create" method="POST">
+    <input type="hidden" name="route" value="<%= route %>">
+    <input type="hidden" name="classroomId" value="<%= classroomId %>">
+    <input type="hidden" name="categoryId" value="<%= categoryId %>">
+
+    <input type="text" name="title" placeholder="Digite o Título da Aula">
+    <br>
+    <br>
+    <textarea name="description" cols="30" rows="10" placeholder="Digite a Descrição"></textarea>
+    <br>
+    <br>
+    <input type="text" name="videoLink" placeholder="Digite o link do video">
+    <br>
+    <br>
+    <input type="text" name="taskLink" placeholder="Digite o link da atividade">
+    <br>
+    <br>
+    <button type="submit">Criar</button>
+</form>

@@ -1,0 +1,138 @@
+<%- include ('partials/navbar.ejs') %>
+<hr>
+<br>
+
+<div style="display: flexbox; float: left;">
+    <button> <a href="/classroom/edit/<%= room.id %>">Editar</a> </button>
+    <h1> <%= room.title %> </h1>
+    <p> <%= room.description %> </p>
+    <div>
+        Código da Sala: 
+        <h4 style="display: inline;"> <%= room.enterCode %> </h4>
+    </div>
+    <br>
+    <br>
+    <h3 style="display: inline;" >Alunos: </h3>
+    <% users.forEach(user => { %>
+        (<%= user.name %>, <%= user.email %>, 
+            <form action="/classroom/kickout" method="POST" style="display: inline;">
+                <input type="hidden" name="route" value="/classroom/room/<%= room.id %>">
+                <input type="hidden" name="roomId" value="<%= room.id %>">
+                <input type="hidden" name="id" value="<%= user.id %>">                                
+                <button type="submit"> <h4 style="display: inline;">Deletar</h4> </button>
+            </form>
+        )
+    <% }) %>
+    <div id="videoArea">
+        <h2>Escolha uma Aula</h2>
+    </div>
+    
+</div>
+
+<div style="display: flexbox; float: right;">
+    <h1>Aulas</h1>
+    <button onclick="changeState('form')">Criar Nova Categoria</button>
+    <br>
+    <br>
+    <form action="/category/create" method="POST" style="display: none;" id="form">
+        <input type="hidden" name="route" value="/classroom/room/<%= room.id %>">
+        <input type="hidden" name="id" value="<%= room.id %>">
+        <input type="text" name="title" placeholder="Título da Categoria">
+        <button type="submit">Criar</button>
+    </form>
+    <% categories.forEach(category => { %>
+        <div>
+            <hr>
+            <h3 style="display: inline;"> <%= category.title %> </h3>
+            <button onclick="changeState('categoryForm')">Editar</button>
+            |||
+            <form action="/category/delete" method="POST" style="display: inline;">
+                <input type="hidden" name="route" value="/classroom/room/<%= room.id %>">
+                <input type="hidden" name="id" value="<%= category.id %>">
+                <button type="submit">Deletar</button>
+            </form>
+
+            <form action="/category/edit" method="POST" style="display: none;" id="categoryForm">
+                <input type="hidden" name="route" value="/classroom/room/<%= room.id %>">
+                <input type="hidden" name="id" value="<%= category.id %>">
+                <input type="text" name="title" placeholder="Título da Categoria">
+                <button type="submit">Editar</button>
+            </form>
+
+            <div>
+                <form action="/lesson/new" method="POST">
+                    <input type="hidden" name="route" value="/classroom/room/<%= room.id %>">
+                    <input type="hidden" name="categoryId" value="<%= category.id %>">
+                    <input type="hidden" name="classroomId" value="<%= room.id %>">
+                    <button type="submit"> <h4 style="display: inline;">Criar Aula</h4> </button>
+                </form>
+                
+                
+                <% lessons.forEach(lesson => { %>
+                    <% if(lesson.categoryId == category.id){ %>
+                        <div>
+                            <button onclick="selectLesson(
+                                '<%= lesson.title %>',
+                                '<%= lesson.description %>',
+                                '<%= lesson.videoLink %>',
+                                '<%= lesson.taskLink %>'
+                            )"> <%= lesson.title %> </button>
+
+                            <form action="/lesson/update" method="POST" style="display: inline;">
+                                <input type="hidden" name="route" value="/classroom/room/<%= room.id %>">
+                                <input type="hidden" name="id" value="<%= lesson.id %>">                                
+                                <button type="submit"> <h4 style="display: inline;">Editar</h4> </button>
+                            </form>
+
+                            <form action="/lesson/delete" method="POST" style="display: inline;">
+                                <input type="hidden" name="route" value="/classroom/room/<%= room.id %>">
+                                <input type="hidden" name="id" value="<%= lesson.id %>">                                
+                                <button type="submit"> <h4 style="display: inline;">Deletar</h4> </button>
+                            </form>
+                        </div>
+                        <br>
+                        
+                        
+                    <% } %>
+                <% }) %>
+            </div>
+        </div>
+    <% }) %>
+</div>
+
+
+
+
+
+
+
+
+
+<script>
+    function changeState(id)
+    {
+        if(document.getElementById(id).style.display == 'block')
+        {
+            document.getElementById(id).style.display = 'none';
+        }
+        else
+        {
+            document.getElementById(id).style.display = 'block';
+        }              
+    }
+
+    function selectLesson(title, description, video, task)
+    {
+        document.getElementById('videoArea').innerHTML = `
+            <h2> ${title} </h2>
+            <br>
+            <br>
+            <iframe src="${video}" frameborder="0" width="640" height="360" allowfullscreen></iframe>
+            <br>
+            <br>
+            <div>${description}</div>
+            <a href="${task}">Fazer Atividade</a>        
+        `
+    }
+</script>
+ 

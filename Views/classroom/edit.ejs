@@ -1,0 +1,17 @@
+<%- include ('partials/navbar.ejs') %>
+
+<h1>Editar Sala</h1>
+
+<form action="/classroom/edit" method="POST">
+    <input type="hidden" name="id" value="<%= room.id %>">
+    <input type="text" name="title" placeholder="Digite o título da sala" value="<%= room.title %>">
+    <br>
+    <br>
+    <textarea name="description" cols="30" rows="10" placeholder="Escreva a descrição da sala"> <%= room.description %> </textarea>
+    <br>
+    <br>
+    <input type="text" name="enterCode" placeholder="Digite o código chave da sala" value="<%= room.enterCode %>">
+    <br>
+    <br>
+    <button type="submit">Editar</button>
+</form>

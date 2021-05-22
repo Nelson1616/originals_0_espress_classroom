@@ -1,0 +1,86 @@
+<%- include ('partials/navbar.ejs') %>
+<hr>
+<br>
+
+<div style="display: flexbox; float: left;">
+    <form action="/classroom/kickout" method="POST" style="display: inline;">
+        <input type="hidden" name="route" value="/home">
+        <input type="hidden" name="roomId" value="<%= room.id %>">
+        <input type="hidden" name="id" value="<%= session.userId %>">                                
+        <button type="submit"> <h4 style="display: inline;">Sair</h4> </button>
+    </form>
+
+    <h1> <%= room.title %> </h1>
+    <p> <%= room.description %> </p>
+    
+    <br>
+    <br>
+    
+    <div id="videoArea">
+        <h2>Escolha uma Aula</h2>
+    </div>
+    
+</div>
+
+<div style="display: flexbox; float: right;">
+    <h1>Aulas</h1>
+    <br>
+    <br>
+    
+    <% categories.forEach(category => { %>
+        <div>
+            <hr>
+            <h3> <%= category.title %> </h3>
+            <div>
+                
+                
+                <% lessons.forEach(lesson => { %>
+                    <% if(lesson.categoryId == category.id){ %>
+                        <button onclick="selectLesson(
+                            '<%= lesson.title %>',
+                            '<%= lesson.description %>',
+                            '<%= lesson.videoLink %>',
+                            '<%= lesson.taskLink %>',
+                        )"> <%= lesson.title %> </button>
+                    <% } %>
+                <% }) %>
+            </div>
+        </div>
+    <% }) %>
+</div>
+
+
+
+
+
+
+
+
+
+<script>
+    function changeState()
+    {
+        if(document.getElementById("form").style.display == 'block')
+        {
+            document.getElementById("form").style.display = 'none';
+        }
+        else
+        {
+            document.getElementById("form").style.display = 'block';
+        }              
+    }
+
+    function selectLesson(title, description, video, task)
+    {
+        document.getElementById('videoArea').innerHTML = `
+            <h2> ${title} </h2>
+            <br>
+            <br>
+            <iframe src="${video}" frameborder="0" width="640" height="360" allowfullscreen></iframe>
+            <br>
+            <br>
+            <p>${description}</p>
+            <a href="${task}">Fazer Atividade</a>        
+        `
+    }
+</script>

@@ -1,0 +1,16 @@
+<%- include ('partials/navbar.ejs') %>
+
+<h1>Cadastrar</h1>
+
+<form action="/user/create" method="POST">
+    <input type="text" name="name" placeholder="Digite seu nome">
+    <br>
+    <br>
+    <input type="email" name="email" placeholder="Digite seu email">
+    <br>
+    <br>
+    <input type="password" name="password" placeholder="Digite sua senha">
+    <br>
+    <br>
+    <button type="submit">Cadastrar</button>
+</form>

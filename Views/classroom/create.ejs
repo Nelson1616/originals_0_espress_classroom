@@ -1,0 +1,16 @@
+<%- include ('partials/navbar.ejs') %>
+
+<h1>Criar Nova Sala</h1>
+
+<form action="/classroom/create" method="POST">
+    <input type="text" name="title" placeholder="Digite o título da sala">
+    <br>
+    <br>
+    <textarea name="description" cols="30" rows="10" placeholder="Escreva a descrição da sala"></textarea>
+    <br>
+    <br>
+    <input type="text" name="enterCode" placeholder="Digite o código chave da sala">
+    <br>
+    <br>
+    <button type="submit">Criar</button>
+</form>
